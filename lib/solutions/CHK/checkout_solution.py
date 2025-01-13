@@ -54,17 +54,13 @@ def checkout(skus: str) -> int:
         best_offer = (0, 0)
         for offer in offers:
             offer_units, on_offer = offer
-            offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
-            if offer_multiply > best_offer[0]:
+
+            print(offer_multiply)
+            if best_offer[0] <= offer_units <= item_count:
                 best_offer = offer
         if best_offer[0] and item_count >= best_offer[0] :
             # choosing the best offer based on quantity
-            best_offer = offers[0]
-            for offer in offers:
-                offer_units, on_offer = offer
-                offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
-                if offer_multiply >= best_offer[0]:
-                    best_offer = offer
+
             print(best_offer)
             if isinstance(on_offer, int):
                 offer_units, on_offer = best_offer
@@ -100,6 +96,7 @@ def _build_skus_array(skus: str) -> list[str]:
 
 if __name__ == '__main__':
     print(checkout('AAAAA'))
+
 
 
 
