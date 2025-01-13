@@ -50,16 +50,22 @@ def checkout(skus: str) -> int:
         return -1
 
     for item, item_count in basket.items():
-        offers = special_offers.get(item)
-        if offers:
+        offers = special_offers.get(item, [])
+        best_offer = (0, 0)
+        for offer in offers:
+            offer_units, on_offer = offer
+            offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
+            if offer_multiply > best_offer[0]:
+                best_offer = offer
+        if best_offer[0] and item_count >= best_offer[0] :
             # choosing the best offer based on quantity
             best_offer = offers[0]
             for offer in offers:
                 offer_units, on_offer = offer
                 offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
-                if offer_multiply > best_offer[0]:
+                if offer_multiply >= best_offer[0]:
                     best_offer = offer
-
+            print(best_offer)
             if isinstance(on_offer, int):
                 offer_units, on_offer = best_offer
                 offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
@@ -93,7 +99,7 @@ def _build_skus_array(skus: str) -> list[str]:
 
 
 if __name__ == '__main__':
-    print(checkout('E'))
+    print(checkout('AAAAA'))
 
 
 
