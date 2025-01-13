@@ -64,10 +64,10 @@ def checkout(skus: str) -> int:
                 total_price += (offer_multiply * on_offer)
                 total_price += (item_prices[item] * regular_price_multiply)
             else:  # free items offer
-                print(f'on_offer {on_offer}')
-                if item_count > offer_units: # is eligible for free items
+                if item_count >= offer_units: # is eligible for free items
                     free_item, quantity = on_offer[-1:], on_offer[1:-1]
-                    quantity_to_deduct = min(quantity, basket.get(free_item))
+                    print(basket.get(free_item, 0))
+                    quantity_to_deduct = min(quantity, basket.get(free_item, 0))
                     total_price -= (quantity_to_deduct * item_prices[free_item])
         else:
             total_price += item_count * item_prices[item]
@@ -92,5 +92,5 @@ def _build_skus_array(skus: str) -> list[str]:
 
 
 if __name__ == '__main__':
-    print(checkout('E'))
+    print(checkout('EE'))
 
