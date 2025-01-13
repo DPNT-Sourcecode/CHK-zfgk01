@@ -29,7 +29,6 @@ def _build_checkout_basket(skus_array: list[str]) -> Optional[dict[str, int]]:
     for sku in skus_array:
         if not is_valid_sku(sku):
             return None
-
         if len(sku) > 1:
             multiply = int(sku[:-1])
             item = sku[-1:]
@@ -49,7 +48,7 @@ def checkout(skus: str) -> int:
         return -1
 
     for item, item_count in basket.items():
-        offer = special_offers[item]
+        offer = special_offers.get(item)
         if offer:
             offer_units, offer_price = offer
             offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
