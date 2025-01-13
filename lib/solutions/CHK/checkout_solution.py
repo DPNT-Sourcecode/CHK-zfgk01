@@ -1,4 +1,4 @@
-
+from collections import defaultdict
 
 # noinspection PyUnusedLocal
 # skus = unicode string
@@ -24,7 +24,7 @@ def is_valid_sku(sku: str) -> bool:
 
 
 def _build_checkout_basket(skus_array: list[str]) -> dict[str, int]:
-    defaultdict()
+    basket = defaultdict(int)
     for sku in skus_array:
         if not is_valid_sku(sku):
             return None
@@ -32,15 +32,22 @@ def _build_checkout_basket(skus_array: list[str]) -> dict[str, int]:
         if len(sku) > 1:
             multiply = sku[:-1]
             item = sku[-1:]
+            basket[item] += multiply
+        else:
+            basket[sku] += 1
+
+    return basket
 
 
 
 def checkout(skus: str) -> int:
     total_price = 0
     skus_array = _build_skus_array(skus)
-
     basket = _build_checkout_basket(skus_array)
-    for sku in skus_array:
+    if not basket:
+        return -1
+    
+    for item, count in basket:
         if not is_valid_sku(sku):
             return -1
 
@@ -74,5 +81,6 @@ def _build_skus_array(skus):
     if current_sku:
         skus_array.append(current_sku)
     return skus_array
+
 
 
