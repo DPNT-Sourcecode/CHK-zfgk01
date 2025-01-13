@@ -59,10 +59,11 @@ def checkout(skus: str) -> int:
                     # choosing the best offer based on quantity
                     if best_offer[0] <= offer_units <= item_count:
                         best_offer = offer
+                offer_units, on_offer = best_offer
                 if best_offer[0] and item_count >= best_offer[0] :
                     if isinstance(on_offer, int):
                         # x items for n price
-                        offer_units, on_offer = best_offer
+
                         offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
                         total_price += (offer_multiply * on_offer)
                     else:  # free items offer
@@ -99,5 +100,6 @@ def _build_skus_array(skus: str) -> list[str]:
 
 if __name__ == '__main__':
     print(checkout('AAAAAAAAA'))
+
 
 
