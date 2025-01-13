@@ -31,7 +31,7 @@ def _build_checkout_basket(skus_array: list[str]) -> Optional[dict[str, int]]:
             return None
 
         if len(sku) > 1:
-            multiply = sku[:-1]
+            multiply = int(sku[:-1])
             item = sku[-1:]
             basket[item] += multiply
         else:
@@ -75,7 +75,3 @@ def _build_skus_array(skus: str) -> list[str]:
         skus_array.append(current_sku)
 
     return skus_array
-
-
-if __name__ == '__main__':
-    checkout('A')
