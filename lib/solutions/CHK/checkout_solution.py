@@ -53,13 +53,12 @@ def checkout(skus: str) -> int:
         offers = special_offers.get(item, [])
         best_offer = (0, 0)
         if offers:
-            while item_count >= best_offer[0]:
+            while item_count > 0 and item_count >= best_offer[0]:
                 for offer in offers:
                     offer_units, on_offer = offer
                     # choosing the best offer based on quantity
                     if best_offer[0] <= offer_units <= item_count:
                         best_offer = offer
-                print(best_offer)
                 if best_offer[0] and item_count >= best_offer[0] :
                     if isinstance(on_offer, int):
                         # x items for n price
@@ -74,8 +73,6 @@ def checkout(skus: str) -> int:
 
                 item_count = item_count - offer_units
                 best_offer = (0, 0)
-                print(item_count)
-                print(offer_multiply)
 
             total_price += item_count * item_prices[item]
         else:
@@ -101,6 +98,6 @@ def _build_skus_array(skus: str) -> list[str]:
 
 
 if __name__ == '__main__':
-    print(checkout('AAAAAAAA'))
+    print(checkout('AAAAAAAAA'))
 
 
