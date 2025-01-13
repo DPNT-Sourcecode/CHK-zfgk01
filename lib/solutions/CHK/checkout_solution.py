@@ -42,6 +42,6 @@ def checkout(skus: str) -> int:
             else:
                 total_price += item_prices[item]
         else:
-            total_price += item_prices[item]
+            total_price += item_prices[sku]
 
     return total_price
