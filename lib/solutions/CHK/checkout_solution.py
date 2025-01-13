@@ -52,23 +52,27 @@ def checkout(skus: str) -> int:
     for item, item_count in basket.items():
         offers = special_offers.get(item, [])
         best_offer = (0, 0)
-        for offer in offers:
-            offer_units, on_offer = offer
-            # choosing the best offer based on quantity
-            if best_offer[0] <= offer_units <= item_count:
-                best_offer = offer
-        if best_offer[0] and item_count >= best_offer[0] :
-            if isinstance(on_offer, int):
-                # x items for n price
-                offer_units, on_offer = best_offer
-                offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
-                total_price += (offer_multiply * on_offer)
-                total_price += (item_prices[item] * regular_price_multiply)
-            else:  # free items offer
-                if item_count >= offer_units: # is eligible for free items
-                    free_item, quantity = on_offer[-1:], int(on_offer[1:-1])
-                    quantity_to_deduct = min(quantity, basket.get(free_item, 0))
-                    total_price -= (quantity_to_deduct * item_prices[free_item])
+        if offers:
+            while item_count >= best_offer[0]:
+                for offer in offers:
+                    offer_units, on_offer = offer
+                    # choosing the best offer based on quantity
+                    if best_offer[0] <= offer_units <= item_count:
+                        best_offer = offer
+                if best_offer[0] and item_count >= best_offer[0] :
+                    if isinstance(on_offer, int):
+                        # x items for n price
+                        offer_units, on_offer = best_offer
+                        offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
+                        total_price += (offer_multiply * on_offer)
+                        # total_price += (item_prices[item] * regular_price_multiply)
+                    else:  # free items offer
+                        if item_count >= offer_units: # is eligible for free items
+                            free_item, quantity = on_offer[-1:], int(on_offer[1:-1])
+                            quantity_to_deduct = min(quantity, basket.get(free_item, 0))
+                            total_price -= (quantity_to_deduct * item_prices[free_item])
+                item_count -= offer_multiply
+            total_price += item_count * item_prices[item]
         else:
             total_price += item_count * item_prices[item]
 
