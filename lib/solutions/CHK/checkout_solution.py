@@ -24,13 +24,18 @@ def is_valid_sku(sku: str) -> bool:
 
 
 def checkout(skus: str) -> int:
-    skus_array = skus.split()
     total_price = 0
     i = 0
     skus_array = []
     current_sku = ''
     while i < len(skus):
-        if isnumeric() skus[i]
+        current_sku += skus[i]
+        if not skus[i].isnumeric():
+            skus_array.append(current_sku)
+            current_sku = ''
+        i += 1
+    if current_sku:
+        skus_array.append(current_sku)
 
     for sku in skus_array:
         if not is_valid_sku(sku):
@@ -51,4 +56,5 @@ def checkout(skus: str) -> int:
             total_price += item_prices[sku]
 
     return total_price
+
 
