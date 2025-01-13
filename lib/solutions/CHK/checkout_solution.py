@@ -23,6 +23,12 @@ def checkout(skus: str) -> int:
             offer = special_offers[item]
             if offer:
                 offer_units, offer_price = offer
-                
+                offer_multiply, regular_price_multiply = divmod(multiply, offer_units)
+                total_price += (offer_multiply * offer_price)
+                total_price += (item_prices[item] * regular_price_multiply)
+            else:
+                total_price += item_prices[item]
+
+
 
 
