@@ -18,4 +18,3 @@ def compute(x: int, y: int) -> int:
     if x not in LEGAL_RANGE_INPUT or y not in LEGAL_RANGE_INPUT:
         raise IllegalParameter(f'x or y are out of range! x={x} y={y}')
     return x + y
-
