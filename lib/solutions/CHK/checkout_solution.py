@@ -48,7 +48,7 @@ def checkout(skus: str) -> int:
     if basket is None:
         return -1
 
-    for item, item_count in basket:
+    for item, item_count in basket.items():
         offer = special_offers[item]
         if offer:
             offer_units, offer_price = offer
@@ -77,5 +77,5 @@ def _build_skus_array(skus: str) -> list[str]:
     return skus_array
 
 
-
-
+if __name__ == '__main__':
+    checkout('A')
