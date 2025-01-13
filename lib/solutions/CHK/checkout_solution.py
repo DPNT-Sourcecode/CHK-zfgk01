@@ -8,12 +8,14 @@ item_prices = {
     'B': 30,
     'C': 20,
     'D': 15,
+    'E': 40,
 }
 
 
 special_offers = {
-    'A': (3, 130),
-    'B': (2, 45),
+    'A': [(3, 130), (5, 200)],
+    'B': [(2, 45)],
+    'E': [(2, '-1B')]
 }
 
 
@@ -48,12 +50,23 @@ def checkout(skus: str) -> int:
         return -1
 
     for item, item_count in basket.items():
-        offer = special_offers.get(item)
-        if offer:
-            offer_units, offer_price = offer
-            offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
-            total_price += (offer_multiply * offer_price)
-            total_price += (item_prices[item] * regular_price_multiply)
+        offers = special_offers.get(item)
+        if offers:
+            # choosing the best offer based on quantity
+            best_offer = offers[0]
+            for offer in offers:
+                offer_units, on_offer = offer
+                offer_multiply, regular_price_multiply = divmod(item_count, offer_units)
+                if offer_multiply > best_offer[0]:
+                    best_offer = offer
+
+            if isinstance(on_offer, int):
+                total_price += (offer_multiply * on_offer)
+                total_price += (item_prices[item] * regular_price_multiply)
+            else:
+                free_item, quantity = on_offer[-1:], on_offer[1:-1]
+                quantity_to_deduct = min(quantity, basket.get(free_item))
+                total_price -= (quantity_to_deduct * item_prices[free_item])
         else:
             total_price += item_count * item_prices[item]
 
