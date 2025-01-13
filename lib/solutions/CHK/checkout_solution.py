@@ -14,6 +14,15 @@ special_offers = {
     'B': (2, 45),
 }
 def checkout(skus: str) -> int:
+    skus_array = skus.split()
+    total_price = 0
+    for sku in skus_array:
+        multiply = sku[:-1]
+        item = sku[-1:]
+        if multiply:
+            offer = special_offers[item]
+            if offer:
+                offer_units, offer_price = offer
+                
 
-    pass
 
