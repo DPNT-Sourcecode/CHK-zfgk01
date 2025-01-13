@@ -16,13 +16,20 @@ special_offers = {
 }
 
 
-def is_valid(sku: str) -> bool:
+def is_valid_sku(sku: str) -> bool:
     if len(sku) > 1:
-        sku = sku[-1:]
+        sku = sku[-1]
+
+    return sku in item_prices.keys()
+
+
 def checkout(skus: str) -> int:
     skus_array = skus.split()
     total_price = 0
     for sku in skus_array:
+        if not is_valid_sku(sku):
+            return -1
+
         if len(sku) > 1:
             multiply = sku[:-1]
             item = sku[-1:]
@@ -36,3 +43,5 @@ def checkout(skus: str) -> int:
                 total_price += item_prices[item]
         else:
             total_price += item_prices[item]
+
+    return total_price
