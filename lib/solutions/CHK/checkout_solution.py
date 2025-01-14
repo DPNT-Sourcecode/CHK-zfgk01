@@ -49,7 +49,7 @@ def _build_checkout_basket(skus_array: list[str]) -> Optional[dict[str, int]]:
                     free_item, quantity = on_offer[-1:], int(on_offer[1:-1])
                     if item_count >= offer_units and basket.get(free_item): # is eligible for free items
                         quantity_to_deduct = min(quantity, basket.get(free_item, 0))
-                        basket[free_item] -= basket.get(free_item) * quantity_to_deduct
+                        basket[free_item] -= quantity_to_deduct
             else:
                 break
             item_count = item_count - offer_units
@@ -118,4 +118,4 @@ def _build_skus_array(skus: str) -> list[str]:
 
 
 if __name__ == '__main__':
-    print(checkout('ABCDEABCDE'))
+    print(checkout('AABBCCDDEE'))
