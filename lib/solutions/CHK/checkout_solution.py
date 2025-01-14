@@ -121,5 +121,5 @@ def _build_skus_array(skus: str) -> list[str]:
 
 
 if __name__ == '__main__':
-    print(checkout('FFFF'))
+    print(checkout('FFFFFF'))
 
