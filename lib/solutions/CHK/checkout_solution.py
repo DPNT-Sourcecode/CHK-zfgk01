@@ -54,6 +54,7 @@ def _build_checkout_basket(skus_array: list[str]) -> Optional[dict[str, int]]:
                 break
             item_count = item_count - offer_units
             best_offer = (0, 0)
+    print(basket)
     return basket
 
 
@@ -117,4 +118,4 @@ def _build_skus_array(skus: str) -> list[str]:
 
 
 if __name__ == '__main__':
-    print(checkout('EEEB'))
+    print(checkout('ABCDEABCDE'))
