@@ -38,8 +38,35 @@ def _build_checkout_basket(skus_array: list[str]) -> Optional[dict[str, int]]:
         else:
             basket[sku] += 1
 
+    for item, item_count in basket.items():
+        # offers = special_offers.get(item, [])
+        best_offer = _get_best_offer(item, item_count)
+
+        while item_count > 0 and item_count >= best_offer[0]:
+            best_offer = _get_best_offer(item, item_count)
+            offer_units, on_offer = best_offer
+            if best_offer[0] and item_count >= offer_units:
+                if not isinstance(on_offer, int):  # free items offer
+                    if item_count >= offer_units: # is eligible for free items
+                        free_item, quantity = on_offer[-1:], int(on_offer[1:-1])
+                        quantity_to_deduct = min(quantity, basket.get(free_item, 0))
+                        basket[free_item] -= basket.get(free_item) * quantity_to_deduct
+            else:
+                break
+            item_count = item_count - offer_units
+            best_offer = (0, 0)
     return basket
 
+
+def _get_best_offer(item, item_count):
+    best_offer = (0, 0)
+    offers = special_offers.get(item, [])
+    for offer in offers:
+        offer_units, on_offer = offer
+        # choosing the best offer based on quantity
+        if best_offer[0] <= offer_units <= item_count:
+            best_offer = offer
+    return best_offer
 
 
 def checkout(skus: str) -> int:
